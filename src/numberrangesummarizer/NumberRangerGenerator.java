@@ -1,7 +1,5 @@
 //package numberrangesummarizer;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
+import java.util.*;
 
 /*
  * @author Londolani 
@@ -41,14 +39,32 @@ public class NumberRangerGenerator implements NumberRangeSummarizer {
 
     @Override
     public String summarizeCollection(Collection<Integer> input) {
-        System.out.println("Hello World from summarizer method");
-        System.out.println(input);
-        return null;
+
+        List<Integer> numbers = new ArrayList<Integer>(input);
+
+        StringBuilder result = new StringBuilder();
+
+        for (int i = 0; i < numbers.size(); i++) {
+            int start = numbers.get(i);
+            result.append(start);
+            while (i < numbers.size() - 1 && numbers.get(i + 1) - numbers.get(i) == 1) {
+                i++;
+            }
+            int end = numbers.get(i);
+            if (start != end) {
+                result.append("-").append(end);
+            }
+            if (i < numbers.size() - 1) {
+                result.append(", ");
+            }
+        }
+        return result.toString();
     }
 
     public static void main(String[] args) {
         NumberRangerGenerator obj = new NumberRangerGenerator();
-        obj.collect("1,2,3");
-        obj.summarizeCollection(null);
+        Collection<Integer> numbers = obj.collect("1,3,6,7,8,12,13,14,15,21,22,23,24,31");
+        String summary = obj.summarizeCollection(numbers);
+        System.out.println("Summarized Output: " + summary);
     }
 }
